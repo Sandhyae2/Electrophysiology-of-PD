@@ -6,30 +6,9 @@ import scipy.io as sio
 from datetime import datetime
 import matplotlib.colors as mcolors
 
-def Burstmeasure_firings(firings, Nneur):
-  Brate = []
-  for neur in range(1, Nneur + 1):
-    temp_time = firings[firings[:,1]== neur,0]
-    temp_time1 = np.diff (temp_time[:-1])
-    temp_time2 = temp_time[2:] - temp_time[:-2]
-    Brate.append((2*np.var(temp_time1)- np.var(temp_time2))/ (2*(np.mean(temp_time1)**2)))
-  return np.array(Brate)
-
-def deci2str(x):
-  return str(x).replace('.','_')
-
 def MM_kin(substrate, Km, n):
     """Michaelis-Menten kinetics"""
-    return (substrate**n) / ((Km**n) + (substrate**n))def MM_kin(substrate, Km, n):
-    """Michaelis-Menten kinetics"""
     return (substrate**n) / ((Km**n) + (substrate**n))
-
-def extractor_st_dur(spike_times,st,sp,dt):
-  mask = (spike_times[:,0] > st/dt) & (spike_times[:,0] <= sp/dt)
-  return spike_times[mask, :2]
-
-def rescale_range (old_value, old_min, old_max, new_min, new_max):
-  return (new_max - new_min) * (old_value - old_min) / (old_max - old_min) + new_min
 
 def ConvertAPtoST(firings, step):
     """Convert action potential firings to spike times"""
